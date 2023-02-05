@@ -80,4 +80,5 @@ drop table Tag
 - I did not provide premature optimization, execution plan analysis will be provided with bigger data seed
 - for /trash folder it makes sense to calculate field on insert/update if this is common use case
 - video should have source too?
+- queries can be improved in script but I understood a task so that it should be a single query
 */

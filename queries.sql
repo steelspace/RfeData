@@ -1,10 +1,9 @@
 /* All published photogalleries that have at least 3 published photos.
 Returns all properties of the photogalley + count of published photos */
-
 select pg.id, pg.title, pg.description, pg.status, pg.date_created, pg.publication_date, published_photo_count from Item as pg
 join
-(select pg.gallery_id, count(ph.id) as published_photo_count from Photo_Gallery as pg 
-    join Item as ph on ph.discriminator = 'PHO'
+(select pg.gallery_id, count(ph.id) as published_photo_count from Photo_Gallery pg 
+    join Item ph on ph.discriminator = 'PHO'
         and pg.photo_id = ph.id and ph.status = 'P'
     group by pg.gallery_id
     having count(ph.id) > 3) 
@@ -21,14 +20,17 @@ where it.discriminator IN ('VID', 'AUD')
 
 /* Total length of audios and videos in trash folder. */
 select ISNULL(sum(it.duration_seconds) / 60.0 / 60.0, 0.0)
-    as total_duration_hrs
+    as total_trash_media_duration_hrs
 from Item it 
 where it.discriminator IN ('VID', 'AUD')
     and it.file_path LIKE 'trash/%'
 
-/*
-select ga.title, ph.title, ph.resolution_x * ph.resolution_y as mpx from Item as ga
-join Photo_Gallery as pg on pg.gallery_id = ga.id 
-join Item as ph on ph.discriminator = 'PHO' and pg.photo_id = ph.id
-    where ga.discriminator = 'PGL'
-*/
+/* All photos with more than 10 megapixels which have source "RFERL" or tag "Citizen Journalism" */
+select ph.id, ph.source, ph.resolution_x * ph.resolution_y as resolution from Item ph
+where ph.discriminator = 'PHO'
+    and ph.resolution_x * ph.resolution_y > 10000000
+    and (source = 'RFERL' or exists (
+        select it.item_id from Item_Tag it
+        join Tag tg on tg.id = it.tag_id
+        where it.item_id = ph.id and tg.name = 'citizen journalism'
+    ))

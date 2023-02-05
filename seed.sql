@@ -7,6 +7,7 @@ insert into Tag (name) values ('human rights')
 insert into Tag (name) values ('usa')
 insert into Tag (name) values ('war')
 insert into Tag (name) values ('climate change')
+insert into Tag (name) values ('citizen journalism')
 
 /* articles: 
 delete from Item where discriminator = 'ART'
@@ -74,6 +75,16 @@ insert into Item (title, description, status, discriminator, file_path, resoluti
     'trash/2.jpg',
     2000, 3000,
     'CRO')
+
+/* bridge items to tags */
+insert into Item_Tag (item_id, tag_id) values (5, 5)
+insert into Item_Tag (item_id, tag_id) values (6, 5)
+insert into Item_Tag (item_id, tag_id) values (1, 5)
+
+insert into Item_Tag (item_id, tag_id) values (7, 4)
+insert into Item_Tag (item_id, tag_id) values (7, 3)
+insert into Item_Tag (item_id, tag_id) values (7, 5)
+insert into Item_Tag (item_id, tag_id) values (3, 4)
 
 /* galleries: 
 delete from Item where discriminator = 'PGL'
