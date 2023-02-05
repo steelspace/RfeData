@@ -160,4 +160,58 @@ insert into Item (title, description, status, discriminator, file_path, duration
     'P',
     'AUD',
     'somewhere/1.mp3',
-    15 * 60)        
+    15 * 60)
+
+/* data for updates - task 3 */
+/* articles: 
+delete from Item where discriminator = 'ART'
+select * from Item where discriminator = 'ART'
+ */
+insert into Item (title, description, status, discriminator, text) values
+    ('A 1',
+    '',
+    'D',
+    'ART',
+    'Text text')
+
+insert into Item (title, description, status, discriminator, text) values
+    ('A 2',
+    '',
+    'D',
+    'ART',
+    'Text text')
+
+insert into Item (title, description, status, discriminator, text) values
+    ('A 3',
+    '',
+    'D',
+    'ART',
+    'Text text')
+
+insert into Item (title, description, status, discriminator, text) values
+    ('A 4',
+    '',
+    'D',
+    'ART',
+    'Text text')
+
+insert into Item (title, description, status, discriminator, text) values
+    ('A 5',
+    '',
+    'D',
+    'ART',
+    'Text text')
+
+/* categories: 
+select * from Category
+*/
+insert into Category (name, status) values ('User Content', 1)
+insert into Category (name, status) values ('User Upload', 1)
+insert into Category (name, status) values ('Citizen Journalism', 1)
+
+/* bridge: Item_Category */
+insert into Item_Category (item_id, category_id) values (15, 1)
+insert into Item_Category (item_id, category_id) values (16, 1)
+insert into Item_Category (item_id, category_id) values (17, 1)
+insert into Item_Category (item_id, category_id) values (18, 2)
+insert into Item_Category (item_id, category_id) values (19, 2)

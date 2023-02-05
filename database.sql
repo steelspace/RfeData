@@ -81,4 +81,6 @@ drop table Tag
 - for /trash folder it makes sense to calculate field on insert/update if this is common use case
 - video should have source too?
 - queries can be improved in script but I understood a task so that it should be a single query
+- set unique constraints on tag and category names -> depends on use cases
+- deletion of any data (such as categories) is questionable - category has state, so I deactivated them instead
 */
