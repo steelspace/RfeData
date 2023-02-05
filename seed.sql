@@ -8,6 +8,8 @@ insert into Tag (name) values ('usa')
 insert into Tag (name) values ('war')
 insert into Tag (name) values ('climate change')
 insert into Tag (name) values ('citizen journalism')
+insert into Tag (name) values ('human-rights')
+insert into Tag (name) values ('climate-change')
 
 /* articles: 
 delete from Item where discriminator = 'ART'
@@ -215,3 +217,16 @@ insert into Item_Category (item_id, category_id) values (16, 1)
 insert into Item_Category (item_id, category_id) values (17, 1)
 insert into Item_Category (item_id, category_id) values (18, 2)
 insert into Item_Category (item_id, category_id) values (19, 2)
+
+/* bridge items to tags
+seed for task 4 */
+insert into Item_Tag (item_id, tag_id) values (1, 1)
+insert into Item_Tag (item_id, tag_id) values (2, 1)
+insert into Item_Tag (item_id, tag_id) values (3, 1)
+insert into Item_Tag (item_id, tag_id) values (4, 1)
+insert into Item_Tag (item_id, tag_id) values (5, 1)
+
+insert into Item_Tag (item_id, tag_id) values (1, 4)
+insert into Item_Tag (item_id, tag_id) values (8, 4)
+insert into Item_Tag (item_id, tag_id) values (9, 4)
+insert into Item_Tag (item_id, tag_id) values (10, 4)
