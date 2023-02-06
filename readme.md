@@ -9,14 +9,16 @@ As the specification suggests, there is a certain degree of inheritance between 
 
 Because 4 is considered an antipattern with many disadvantages, I decided to go with 1.
 There is only one table holding all kinds of items divided by discriminator value and most of columns are shared with all types of items.
+
 Pros:
 - Simple schema
 - Good performance
 - Simple queries
+- All in all it is KISS and DRY :)
 
 Cons:
 - NOT NULL constrains are not available for uncommon columns
-- Adding new fields is problematic
+- Adding new item types is problematic
 
 ## Considerations
 - I did not provide premature optimization, execution plan analysis will be provided with bigger data seed
