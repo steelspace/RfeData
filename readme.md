@@ -27,11 +27,11 @@ Cons:
 The scripts are tested on MS SQL Azure with compatibility level 16.
 It is written as generically as possible.
 
-`database.sql` - creates schema (tables, constraints)
-`seed.sql` - creates data for testing. It can be run only once and only on top of an empty tables because reference IDs are hardcoded.
-`queries.sql` - task with querying
-`cat-merge.sql` - category merging task
-`tags.sql` - tags consolidation task
+1. `database.sql` - creates schema (tables, constraints)
+2. `seed.sql` - creates data for testing. It can be run only once and only on top of an empty tables because reference IDs are hardcoded.
+3. `queries.sql` - task with querying
+4. `cat-merge.sql` - category merging task
+5. `tags.sql` - tags consolidation task
 
 ## Possible Improvements
 ### Localization / globalozation
@@ -49,3 +49,4 @@ It is written as generically as possible.
 - partition data using created date to offload old articles
 - prepare views based on discriminator for different types of articles
 - for /trash folder it makes sense to calculate field on insert/update if this is common use case
+- with more types of items coming, using some document database should be considered instead of the relational one
