@@ -8,22 +8,55 @@ I.e. if there is tag "human rights" and there's also tag "human-rights" all item
     having tag "human rights" will now have tag "human-rights" and tag "human rights" will be deleted.
 */
 
-select item.id, item.title, spaced.tspace_name, spaced.tdash_name from Item item
+drop table IF EXISTS #replaced_tags
+
+/* map of replacement */ 
+select item.id, item.title, 
+    spaced.tspace_id, spaced.tspace_name,
+    spaced.tdash_id, spaced.tdash_name
+into #replaced_tags
+    from Item item
 inner join Item_Tag it on it.item_id = item.id
 inner join (
     select tspace.id as tspace_id, tdash.id as tdash_id,
         tspace.name as tspace_name, tdash.name as tdash_name from Tag tspace
     join Tag tdash on REPLACE(tdash.name, '-', ' ') = tspace.name
-    where len(tdash.name) - len(replace(tdash.name, '-', '')) = 1) spaced
+    where LEN(tdash.name) - LEN(REPLACE(tdash.name, '-', '')) = 1) spaced
     on spaced.tspace_id = it.tag_id
+
+/* current state */ 
+select * from #replaced_tags
+select name from Tag
 
 begin transaction
 
 update it
-set it.tag_id = 2
+set it.tag_id = dashed.tdash_id
 from Item_Tag it 
-select * from Tag tspace
-join Tag tdash on REPLACE(tdash.name, '-', ' ') = tspace.name
-where len(tdash.name) - len(replace(tdash.name, '-', '')) = 1
+inner join 
+(
+    select spaced.tspace_id, spaced.tdash_id from Item item
+        inner join Item_Tag it on it.item_id = item.id
+        inner join (
+        select tspace.id as tspace_id, tdash.id as tdash_id,
+            tspace.name as tspace_name, tdash.name as tdash_name from Tag tspace
+        join Tag tdash on REPLACE(tdash.name, '-', ' ') = tspace.name
+    where LEN(tdash.name) - LEN(REPLACE(tdash.name, '-', '')) = 1) spaced
+    on spaced.tspace_id = it.tag_id
+) dashed 
+    on dashed.tspace_id = it.tag_id
+
+delete from Tag
+    where exists (select tspace_id from #replaced_tags where tspace_id = Tag.id)
+
+/* tags without deleted ones */
+select name from Tag
+
+/* new state with replaced tags */
+select item.id, item.title, tg.name
+from #replaced_tags ri
+inner join Item item on item.id = ri.id
+inner join Item_Tag it on it.item_id = item.id
+inner join Tag tg on tg.id = it.tag_id and tg.id = ri.tdash_id
 
 rollback
