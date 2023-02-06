@@ -38,26 +38,25 @@ CREATE TABLE Photo_Gallery (
     photo_id INT NOT NULL,
     gallery_id INT NOT NULL,
     order_in_gallery INT NOT NULL,
-    CONSTRAINT UK_order_in_gallery UNIQUE(gallery_id, order_in_gallery),
+    CONSTRAINT PK_Photo_Gallery PRIMARY KEY CLUSTERED (photo_id, gallery_id, order_in_gallery),
     CONSTRAINT FK_pg_photo FOREIGN KEY (photo_id) REFERENCES Item (id),
-    CONSTRAINT FK_pg_gallery FOREIGN KEY (gallery_id) REFERENCES Item (id),
-    CONSTRAINT PK_Photo_Gallery PRIMARY KEY CLUSTERED (photo_id, gallery_id) 
+    CONSTRAINT FK_pg_gallery FOREIGN KEY (gallery_id) REFERENCES Item (id)
 )
 
 CREATE TABLE Item_Category (
     item_id INT NOT NULL,
     category_id INT NOT NULL,
+    CONSTRAINT PK_Item_Category PRIMARY KEY CLUSTERED (item_id, category_id),
     CONSTRAINT FK_ct_item FOREIGN KEY (item_id) REFERENCES Item (id),
-    CONSTRAINT FK_ct_category FOREIGN KEY (category_id) REFERENCES Category (id),
-    CONSTRAINT PK_Item_Category PRIMARY KEY CLUSTERED (item_id, category_id) 
+    CONSTRAINT FK_ct_category FOREIGN KEY (category_id) REFERENCES Category (id)
 )
 
 CREATE TABLE Item_Tag (
     item_id INT NOT NULL,
     tag_id INT NOT NULL,
+    CONSTRAINT PK_Item_Tag PRIMARY KEY CLUSTERED (item_id, tag_id),
     CONSTRAINT FK_it_item FOREIGN KEY (item_id) REFERENCES Item (id),
-    CONSTRAINT FK_it_tag FOREIGN KEY (tag_id) REFERENCES Tag (id),
-    CONSTRAINT PK_Item_Tag PRIMARY KEY CLUSTERED (item_id, tag_id) 
+    CONSTRAINT FK_it_tag FOREIGN KEY (tag_id) REFERENCES Tag (id)
 )
 
 /*
@@ -69,18 +68,3 @@ drop table Item
 drop table Tag
 */
 
-/*
-- missing language flag
-- categories, tags also internationalized?
-- create partition using created date
-- prepare views based on discriminator
-- more constraints for dicriminator -> NULL values
-- consider timezone, local time, UTC?
-- order of photos should be unique?
-- I did not provide premature optimization, execution plan analysis will be provided with bigger data seed
-- for /trash folder it makes sense to calculate field on insert/update if this is common use case
-- video should have source too?
-- queries can be improved in script but I understood a task so that it should be a single query
-- set unique constraints on tag and category names -> depends on use cases
-- deletion of any data (such as categories) is questionable - category has state, so I deactivated them instead
-*/
