@@ -14,7 +14,7 @@ Pros:
 - Simple schema
 - Good performance
 - Simple queries
-- All in all it is KISS and DRY :)
+- All in all it is [KISS](https://en.wikipedia.org/wiki/KISS_principle) and [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) :)
 
 Cons:
 - NOT NULL constrains are not available for uncommon columns
