@@ -25,7 +25,7 @@ inner join (
     on spaced.tspace_id = it.tag_id
 
 /* current state */ 
-select * from #replaced_tags
+select id, title, tspace_name from #replaced_tags
 select name from Tag
 
 begin transaction
@@ -46,17 +46,17 @@ inner join
 ) dashed 
     on dashed.tspace_id = it.tag_id
 
-delete from Tag
-    where exists (select tspace_id from #replaced_tags where tspace_id = Tag.id)
-
-/* tags without deleted ones */
-select name from Tag
-
 /* new state with replaced tags */
 select item.id, item.title, tg.name
 from #replaced_tags ri
 inner join Item item on item.id = ri.id
 inner join Item_Tag it on it.item_id = item.id
 inner join Tag tg on tg.id = it.tag_id and tg.id = ri.tdash_id
+
+delete from Tag
+    where exists (select tspace_id from #replaced_tags where tspace_id = Tag.id)
+
+/* tags without deleted ones */
+select name from Tag
 
 rollback
